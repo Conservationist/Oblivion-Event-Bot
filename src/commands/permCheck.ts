@@ -1,5 +1,7 @@
-export default function permCheck(m, role) {
-  const roles = {
+import { Message, Role } from "discord.js";
+
+export default function permCheck(m: Message, role: string) {
+  const roles: object = {
     user: ["(H) Pve Booster"],
     staff: ["Mods", "Saber Controller", "Admin"]
   };
@@ -13,7 +15,7 @@ export default function permCheck(m, role) {
     }
   } else if (role === "user") {
     if (m.author.id) {
-      if (m.member.roles.some(r => roles.user.includes(r.name))) {
+      if (m.member.roles.some(r => r.user.includes(r.name))) {
         return true;
       } else {
         return false;

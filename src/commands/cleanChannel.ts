@@ -38,9 +38,11 @@ export default async function cleanChannel(message: Message, args: string[]) {
       const embed = await Helpers.successEmbed(
         `Cleared ${parseInt(numberOfMessages)} messages.`
       );
-      return message.channel.send(embed).then(m => m.delete(20000));
+      return message.channel
+        .send(embed)
+        .then(m => (m as Message).delete(20000));
     })
-    .catch(async (err: object) => {
+    .catch(async (err: any) => {
       const embed = await Helpers.errorEmbed(err.message);
       return message.channel.send(embed);
     });

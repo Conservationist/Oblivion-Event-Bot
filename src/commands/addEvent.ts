@@ -9,6 +9,7 @@ import { Message, Client, RichEmbed, Channel } from "discord.js";
  * @param client client from bot.js
  * @param args arguments passed in by the user
  */
+
 export default async function addEvent(
   message: Message,
   client: Client,
@@ -49,10 +50,10 @@ export default async function addEvent(
   return react_channel
     .send(embed)
     .then(async m => {
-      m.react("✅");
+      (m as Message).react("✅");
       await Helpers.sleep(300);
-      m.react("❌");
-      return Helpers.addMessageId(m.id);
+      (m as Message).react("❌");
+      return Helpers.addMessageId((m as Message).id);
     })
     .catch(e => console.log(e));
 }
