@@ -4,7 +4,7 @@
   "description": "A bot for the oblivion discord ",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec babel-node bot.js",
+    "start": "ts-node-dev --respawn --transpileOnly ./src/bot.ts",
     "build-bot": "npx webpack --config webpack.config.js",
     "build": "npm run build-bot"
   },
@@ -18,16 +18,23 @@
   "dependencies": {
     "date-and-time": "^0.6.2",
     "discord.js": "^11.3.2",
+    "dotenv": "^6.0.0",
     "mongoose": "^5.2.3",
-    "nodemon": "^1.18.2",
     "uniqid": "^5.0.3"
   },
   "devDependencies": {
+    "@types/dotenv": "^4.0.3",
+    "@types/mongoose": "^5.2.3",
+    "@types/node": "^10.5.4",
     "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.2.6",
     "babel-preset-env": "^1.7.0",
     "babel-preset-latest": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
-    "dotenv": "^6.0.0",
+    "nodemon": "^1.18.3",
+    "ts-node-dev": "^1.0.0-pre.26",
+    "tslint": "^5.11.0",
+    "typescript": "^2.9.2",
     "webpack": "^4.16.0",
     "webpack-cli": "^3.0.8"
   }

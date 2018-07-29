@@ -1,0 +1,8 @@
+Major shit to do:
+    ☐ Start converting helpers.js since that's going to take the most time, and be the most annoying @high  
+    ☐ Figure typescript the fuck out @critical 
+    ☐ Probably going to rework some of the helpers, make them more usable everywhre
+	☐ Have to remember that event id is now the mongoid _id, and set that up correctly, shouldn't be hard just gotta remember
+	☐ Maybe look into docker again?
+	☐ Start working on specifying a specific date for events, so they can be planned ahead.
+	☐ Track old messages if the bot goes down, pr useful feature.
