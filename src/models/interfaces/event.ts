@@ -4,6 +4,6 @@ export interface IEvent extends Document {
   time?: string;
   message_id?: string;
   users?: object;
-  yes?: Array<string>;
-  no?: Array<string>;
+  yes?: string[];
+  no?: string[];
 }

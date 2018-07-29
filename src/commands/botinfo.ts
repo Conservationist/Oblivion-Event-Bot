@@ -1,7 +1,10 @@
-import Discord from "discord.js";
-export default async function BotInfo(message, client) {
-  const date = new Date(client.user.createdAt);
-  const embed = new Discord.RichEmbed()
+import { RichEmbed, Message, Client } from "discord.js";
+export default async function BotInfo(
+  message: Message,
+  client: Client
+): Promise<Object> {
+  const date: Date = new Date(client.user.createdAt);
+  const embed: RichEmbed = new RichEmbed()
     .setColor("#d0ef84")
     .setAuthor(`🤖 Bot Info`)
     .addField("Version", "Oblivion Bot v 0.1.2", true)

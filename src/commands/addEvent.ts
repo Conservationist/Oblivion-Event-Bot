@@ -12,8 +12,8 @@ import { Message, Client, RichEmbed, Channel } from "discord.js";
 export default async function addEvent(
   message: Message,
   client: Client,
-  args: Array<string>
-) {
+  args: string[]
+): Promise<object> {
   if (permCheck(message, "staff") === false) {
     const embed: RichEmbed = await Helpers.errorEmbed(
       "Insufficient permission."
@@ -46,11 +46,13 @@ export default async function addEvent(
     eventChannel[0].event_channel
   );
   Helpers.createEvent(title, event_time, message);
-  return react_channel.send(embed);
-  // .then(async message => {
-  //   message.react("✅");
-  //   await Helpers.sleep(300);
-  //   message.react("❌");
-  //   return Helpers.addMessageId(message.id);
-  // });
+  return react_channel
+    .send(embed)
+    .then(async m => {
+      m.react("✅");
+      await Helpers.sleep(300);
+      m.react("❌");
+      return Helpers.addMessageId(m.id);
+    })
+    .catch(e => console.log(e));
 }

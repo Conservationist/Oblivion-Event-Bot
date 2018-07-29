@@ -1,8 +1,8 @@
-import Database from "../modal";
 import Helpers from "./helpers";
 import permCheck from "./permCheck";
+import { Message } from "discord.js";
 
-export default async function cleanChannel(message, args) {
+export default async function cleanChannel(message: Message, args: string[]) {
   if (permCheck(message, "staff") === false) {
     const embed = await Helpers.errorEmbed(
       "You do not have the required permission to do this."
@@ -15,8 +15,8 @@ export default async function cleanChannel(message, args) {
     );
     return message.channel.send(embed);
   }
-  let numberOfMessages = [args];
-  if (isNaN(numberOfMessages) === true) {
+  let numberOfMessages: string = args[0];
+  if (isNaN(parseInt(numberOfMessages)) === true) {
     const embed = await Helpers.errorEmbed(
       "Invalid arguments, please check '>help'."
     );
@@ -40,7 +40,7 @@ export default async function cleanChannel(message, args) {
       );
       return message.channel.send(embed).then(m => m.delete(20000));
     })
-    .catch(async err => {
+    .catch(async (err: object) => {
       const embed = await Helpers.errorEmbed(err.message);
       return message.channel.send(embed);
     });
