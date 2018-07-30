@@ -47,7 +47,7 @@ export default async function addEvent(
     eventChannel[0].event_channel
   );
   Helpers.createEvent(title, event_time, message);
-  return react_channel
+  return (react_channel as Channel)
     .send(embed)
     .then(async m => {
       (m as Message).react("✅");

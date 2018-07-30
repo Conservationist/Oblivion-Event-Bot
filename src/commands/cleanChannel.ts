@@ -1,23 +1,23 @@
 import Helpers from "./helpers";
 import permCheck from "./permCheck";
-import { Message } from "discord.js";
+import { Message, Collection, RichEmbed } from "discord.js";
 
 export default async function cleanChannel(message: Message, args: string[]) {
   if (permCheck(message, "staff") === false) {
-    const embed = await Helpers.errorEmbed(
+    const embed: RichEmbed = await Helpers.errorEmbed(
       "You do not have the required permission to do this."
     );
     return message.channel.send(embed);
   }
   if (!args) {
-    const embed = await Helpers.errorEmbed(
+    const embed: RichEmbed = await Helpers.errorEmbed(
       "Invalid arguments, please check '>help'."
     );
     return message.channel.send(embed);
   }
   let numberOfMessages: string = args[0];
   if (isNaN(parseInt(numberOfMessages)) === true) {
-    const embed = await Helpers.errorEmbed(
+    const embed: RichEmbed = await Helpers.errorEmbed(
       "Invalid arguments, please check '>help'."
     );
     return message.channel.send(embed);

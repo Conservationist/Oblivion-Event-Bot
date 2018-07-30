@@ -1,8 +1,7 @@
-import Database from "../modal";
 import Helpers from "./helpers";
 import Settings from "../settingsmodal";
 
-export default async function ListUsers(message, args, client) {
+export default async function ListUsers(message, args) {
   if (!args || args.length < 2) {
     const embed = await Helpers.errorEmbed(
       "Invalid arguments, please check '>help'."
@@ -28,7 +27,6 @@ export default async function ListUsers(message, args, client) {
     return message.channel.send(embed);
   }
   if (type === "yes") {
-    console.log("???");
     const users = await Helpers.returnEventYesList(id);
     const embed = await Helpers.returnYesEmbed(users);
     return message.channel.send(embed);

@@ -1,5 +1,5 @@
 //@ts-check
-import Discord, { Client } from "discord.js";
+import Discord, { Client, Channel } from "discord.js";
 import mongoose from "mongoose";
 import * as dotenv from "dotenv";
 import * as createEvent from "./commands/addEvent";
@@ -34,14 +34,52 @@ client.on("ready", () => {
   client.user.setActivity(`Boosting for ${client.users.size} people ;)`);
 });
 
-// client.on("messageReactionAdd", (reaction, user) => {
-//   if (reaction.emoji.name === "✅") {
-//     Helpers.checkIfUserHasReacted(user.id, reaction.message.id, "yes");
-//   }
-//   if (reaction.emoji.name === "❌") {
-//     Helpers.checkIfUserHasReacted(user.id, reaction.message.id, "no");
-//   }
-// });
+const events: any = {
+  MESSAGE_REACTION_ADD: "messageReactionAdd",
+  MESSAGE_REACTION_REMOVE: "messageReactionRemove"
+};
+
+client.on("raw", async (event: any) => {
+  if (!events.hasOwnProperty(event.t)) return;
+  const { d: data } = event;
+  const user = client.users.get(data.user_id);
+  const channel =
+    client.channels.get(data.channel_id) || (await user!.createDM());
+
+  if (channel.messages.has(data.message_id)) return;
+
+  const message = await (channel as Channel).fetchMessage(data.message_id);
+
+  const emojiKey = data.emoji.id
+    ? `${data.emoji.name}:${data.emoji.id}`
+    : data.emoji.name;
+  // ...
+  let reaction = message.reactions.get(emojiKey);
+  if (!reaction) {
+    // Create an object that can be passed through the event like normal
+    const emoji = new Discord.Emoji(
+      client.guilds.get(data.guild_id),
+      data.emoji
+    );
+    reaction = new Discord.MessageReaction(
+      message,
+      emoji,
+      1,
+      data.user_id === client.user.id
+    );
+  }
+
+  client.emit(events[event.t], reaction, user);
+});
+
+client.on("messageReactionAdd", (reaction, user) => {
+  if (reaction.emoji.name === "✅") {
+    Helpers.checkIfUserHasReacted(user.id, reaction.message.id, "yes");
+  }
+  if (reaction.emoji.name === "❌") {
+    Helpers.checkIfUserHasReacted(user.id, reaction.message.id, "no");
+  }
+});
 
 /* set a prefix */
 const prefix: string = ">";
