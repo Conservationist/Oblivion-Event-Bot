@@ -1,4 +1,3 @@
-import Database from "../modal";
 import Helpers from "./helpers";
 import Settings from "../settingsmodal";
 
@@ -28,7 +27,6 @@ export default async function ListUsers(message, args, client) {
     return message.channel.send(embed);
   }
   if (type === "yes") {
-    console.log("???");
     const users = await Helpers.returnEventYesList(id);
     const embed = await Helpers.returnYesEmbed(users);
     return message.channel.send(embed);

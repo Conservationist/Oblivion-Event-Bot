@@ -25,8 +25,6 @@ export default async function addEvent(m, client, args) {
   }
   const time = args.pop();
   const title = args.join(" ");
-  console.log(args.join(" "));
-  const now = new Date("23:00");
   const event_time = Helpers.createTimeString(time);
   const id = uniqid();
   const embed = Helpers.createEventMessage(title, event_time, client, id);

@@ -8,7 +8,19 @@ import ListUsers from "./commands/list";
 import dotenv from "dotenv";
 import cleanChannel from "./commands/cleanChannel";
 import botInfo from "./commands/botinfo";
+import log from "node-file-logger";
 dotenv.config();
+
+const logOptions = {
+  folderPath: "./logs/",
+  dateBasedFileNaming: true,
+  fileNamePrefix: "BotLogs_",
+  fileNameExtension: ".log",
+  dateFormat: "YYYY_MM_D",
+  timeFormat: "h:mm:ss A"
+};
+log.SetUserOptions(logOptions);
+
 /* connect to the DB */
 const mongo_options = {
   useNewUrlParser: true,
@@ -25,14 +37,15 @@ const client = new Discord.Client();
 
 /* check if bot is ready, when is ready, set activity and notify that bot has started */
 client.on("ready", () => {
-  console.log("Started successfully!");
+  log.Info("Client started successfully.");
   client.user.setActivity(`Boosting for ${client.users.size} people ;)`);
 });
+
 const events = {
   MESSAGE_REACTION_ADD: "messageReactionAdd",
   MESSAGE_REACTION_REMOVE: "messageReactionRemove"
 };
-
+client.on("error", log.Error("Client recieved error."));
 client.on("raw", async event => {
   if (!events.hasOwnProperty(event.t)) return;
   const { d: data } = event;
@@ -101,7 +114,6 @@ client.on("message", message => {
     });
   }
   if (command === "help") {
-    console.log("hi");
     return message.channel.send(Helpers.returnHelpEmbed(client));
   }
   if (command === "debugarrayadd") {
@@ -123,5 +135,4 @@ client.on("message", message => {
     return setListChannel(message, client, args);
   }
 });
-/* login =) */
-client.login(process.env.BOT_DEV);
+/* login =) */ client.login(process.env.BOT_DEV);

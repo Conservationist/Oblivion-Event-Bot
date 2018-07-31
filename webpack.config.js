@@ -15,7 +15,7 @@ module.exports = {
   entry: "./bot.js",
   target: "node",
   output: {
-    path: path.join(__dirname, "build"),
+    path: path.join(__dirname, `dist`),
     filename: "bot.js"
   },
   externals: nodeModules
