@@ -1,3 +1,5 @@
+import Discord from "discord.js";
+
 export default function createEventMessage(title, time, client, id) {
   const embed = new Discord.RichEmbed()
     .setColor("#fda831")

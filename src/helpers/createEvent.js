@@ -1,4 +1,6 @@
 import Database from "../models/eventModel";
+import logger from "../logger";
+import { errorEmbed, successEmbed } from "../embeds"
 
 export default function createEvent(title, time, id, m) {
   /* create a new event object*/
@@ -8,12 +10,18 @@ export default function createEvent(title, time, id, m) {
     Id: id
   });
   /* save it to the DB, log any errors, notify when done + id */
-  return db_event.save((err, channel) => {
+  return db_event.save((err) => {
     if (err) {
-      console.error(err);
-      return false;
+      if (err.message) {
+        logger.error(err.message)
+      } else {
+        logger.error(`An error occured creating event ${title}:${id}`)
+      }
+      const embed = errorEmbed(`An error occured creating event ${title}:${id}.`);
+      return m.channel.send(embed);
     }
-    console.log(`EVENT ${id} SAVED TO DB`);
-    return m.channel.send("Created event with id of " + id + " sucessfully.");
+    logger.info(`Event ${title}:${id} created successfully.`)
+    const embed = successEmbed("Created event " + "`" + title + ":" + id + "`" + " " + "successfully.")
+    return m.channel.send(embed);
   });
 }

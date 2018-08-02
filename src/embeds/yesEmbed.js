@@ -1,3 +1,5 @@
+import Discord from "discord.js";
+
 export default function returnYesEmbed(yeslist, client) {
   /* we map through all the users outputting them numerically  */
   if (yeslist.err === true) return this.errorEmbed("List is currently empty.");
@@ -10,7 +12,7 @@ export default function returnYesEmbed(yeslist, client) {
     )
     .setFooter(
       "Relative of the Billy Herrington bot. | Made by 𝓗𝓮𝔁.",
-      bot_avatar
+      "https://cdn.discordapp.com/avatars/469204371289145345/561ea91258cf5ccad4685a1b4f52355e.png?size=2048"
     );
   return embed;
 }

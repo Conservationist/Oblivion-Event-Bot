@@ -1,5 +1,6 @@
+import Database from "../models/eventModel";
+
 export default async function addNoUserToEvent(userid, messageid) {
-  console.log("hi");
   /* find the event via messsage id */
   const event = await Database.find({ Message_id: messageid });
   /* check if event exists or not */

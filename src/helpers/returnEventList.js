@@ -1,6 +1,6 @@
 import Database from "../models/eventModel";
 
-export default async function returnEventYesList(eventid, type) {
+export default async function returnEventList(eventid, type) {
   if (!type) return; //ADD LOG IN THIS FOLDER! @important
   const event = await Database.find({ Id: eventid });
   if (event.length < 1 || !event) return;

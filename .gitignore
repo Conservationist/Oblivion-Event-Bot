@@ -4,3 +4,4 @@ build/
 Oblivion_*
 .vscode
 oldjs/
+logs/

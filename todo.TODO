@@ -1,2 +1,10 @@
 Shit to do:
-	☐ make returnyeslist & returnnolist same function, literaly 1 word diff between them @low @today 
+	✔ make returnyeslist & returnnolist same function, literaly 1 word diff between them @low @today  @done (August 2nd 2018, 12:34)
+	☐ finish converting the code to new modular system. (setEventChannel, setListChannel, then gotta make setAnnounceChannel)
+	☐ going to create a new command system, lots of if statements not practical
+	☐ addevent.js is also going to announnce the new event created.
+	☐ need to work on a group building feature, thinking it will DM the user with what role they want to select, then group leaders will have a command to view the group
+	☐ need to improve error handling across the board, logging has now been implemented, bot shouldn't crash anymore also.
+	☐ start fucking around with dates so events can be planned days in advance.
+	☐ keep commands simple and user friendly & make embeds look sxy.
+	☐ fuck that java guy wanting to do everything in java 

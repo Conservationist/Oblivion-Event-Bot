@@ -1,3 +1,5 @@
+import Database from "../models/eventModel";
+
 export default async function addMessageId(messageid, eventid) {
   const event = await Database.find({ Id: eventid });
   if (event.length < 1 || !event) return;
