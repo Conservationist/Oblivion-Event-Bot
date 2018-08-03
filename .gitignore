@@ -6,5 +6,4 @@ Oblivion_*
 oldjs/
 logs/
 dist/
-src/logger
 *.TODO
