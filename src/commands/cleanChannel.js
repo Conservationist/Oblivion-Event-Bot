@@ -1,23 +1,25 @@
-import Database from "../modal";
-import Helpers from "./helpers";
-import permCheck from "./permCheck";
+import { permCheck } from "../helpers";
+import * as Embeds from "../embeds"
+import logger from "../logger";
+// import permCheck from "../helpers/permCheck";
 
 export default async function cleanChannel(message, args) {
   if (permCheck(message, "staff") === false) {
-    const embed = await Helpers.errorEmbed(
+    const embed = await Embeds.errorEmbed(
       "You do not have the required permission to do this."
     );
     return message.channel.send(embed);
   }
   if (!args) {
-    const embed = await Helpers.errorEmbed(
+    logger.info(`Invalid arguments specified by user ${message.author.username}:${message.author.id}.`)
+    const embed = await Embeds.errorEmbed(
       "Invalid arguments, please check '>help'."
     );
     return message.channel.send(embed);
   }
   let numberOfMessages = [args];
   if (isNaN(numberOfMessages) === true) {
-    const embed = await Helpers.errorEmbed(
+    const embed = await Embeds.errorEmbed(
       "Invalid arguments, please check '>help'."
     );
     return message.channel.send(embed);
@@ -26,8 +28,8 @@ export default async function cleanChannel(message, args) {
   let messages = await message.channel
     .fetchMessages({ limit: parseInt(numberOfMessages) })
     .catch(async e => {
-      console.log(e);
-      const embed = await Helpers.successEmbed(
+      logger.error(`Error occured fetching messages ${e.message}`)
+      const embed = await Embeds.successEmbed(
         "Failed to fetch messages to delete."
       );
       return message.channel.send(embed);
@@ -35,13 +37,15 @@ export default async function cleanChannel(message, args) {
   return message.channel
     .bulkDelete(messages)
     .then(async () => {
-      const embed = await Helpers.successEmbed(
+      logger.info(`Cleared ${parseInt(numberOfMessages)} messages. USER: ${message.author.id}`)
+      const embed = await Embeds.successEmbed(
         `Cleared ${parseInt(numberOfMessages)} messages.`
       );
-      return message.channel.send(embed).then(m => m.delete(20000));
+      return message.channel.send(embed).then(m => m.delete(10000));
     })
     .catch(async err => {
-      const embed = await Helpers.errorEmbed(err.message);
+      logger.error(`Error occured deleting messages ${err.message}`)
+      const embed = await Embeds.errorEmbed(err.message);
       return message.channel.send(embed);
     });
 }

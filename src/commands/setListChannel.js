@@ -1,31 +1,35 @@
-import Settings from "../settingsmodal";
-import permCheck from "./permCheck";
-import Helpers from "./helpers";
+import Settings from "../models/settingsModel";
+import * as Embeds from "../embeds";
+import { permCheck } from "../helpers";
+import logger from "../logger";
 
 export default async function setEventChannel(message, client, args) {
   if (permCheck(message, "staff") === false) {
-    const embed = await Helpers.errorEmbed("Insufficient permission.");
+    logger.info(`Insufficient permission. User: ${message.author.username}:${message.author.id}.`)
+    const embed = await Embeds.errorEmbed("Insufficient permission.");
     return message.channel.send(embed);
   }
   const guildsettings = await Settings.find();
   if (args.length === 0) {
-    const embed = await Helpers.errorEmbed(
+    logger.info(`Invalid arguments specified by user ${message.author.username}:${message.author.id}.`)
+    const embed = await Embeds.errorEmbed(
       "Invalid arguments, please check '>help'."
     );
     return message.channel.send(embed);
   }
   const channel = client.channels.find("name", args[0]);
   if (!channel) {
-    const embed = await Helpers.errorEmbed("Channel does not exist.");
+    logger.error(`Tried to fetch channel that did not exist.`)
+    const embed = await Embeds.errorEmbed("Channel does not exist.");
     return message.channel.send(embed);
   }
   if (!guildsettings[0]) {
     const eventChannel = new Settings({ listChannel: channel.id });
     eventChannel.save(async (err, channel) => {
       if (err) return console.error(err);
-      console.log(channel.id + " saved to collection.");
+      logger.info(`${channel.id} saved to the collection.`)
     });
-    const embed = await Helpers.successEmbed(
+    const embed = await Embeds.successEmbed(
       `The >list command will now be allowed in the channel "${args[0]}".`
     );
     return message.channel.send(embed);
@@ -36,11 +40,12 @@ export default async function setEventChannel(message, client, args) {
       { $set: { listChannel: channel.id } },
       async (err, res) => {
         if (!err) {
-          const embed = await Helpers.successEmbed(
+          logger.info(`${channel.id} updated to the collection.`)
+          const embed = await Embeds.successEmbed(
             `The >list command will now be allowed in the channel "${args[0]}".`
           );
           return message.channel.send(embed);
-        } else if (err) return console.log(err);
+        } else if (err) return logger.error(`Error occured updating the list channel collection.`);
       }
     );
   }
