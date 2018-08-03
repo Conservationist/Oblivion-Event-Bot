@@ -9,5 +9,6 @@ export default function successEmbed(message) {
       "Relative of the Billy Herrington bot. | Made by 𝓗𝓮𝔁.",
       "https://cdn.discordapp.com/avatars/469204371289145345/561ea91258cf5ccad4685a1b4f52355e.png?size=2048"
     );
+  console.log("how many times am i being called")
   return embed;
 }

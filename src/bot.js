@@ -1,9 +1,10 @@
 import Discord from "discord.js";
 import mongoose from "mongoose";
-import { addEvent, list } from "./commands"
 import dotenv from "dotenv";
 import { userReactHandler } from "./helpers/"
 import logger from "./logger/"
+import * as commands from "./commands";
+import { helpEmbed } from "./embeds";
 dotenv.config();
 
 /* connect to the DB */
@@ -23,7 +24,9 @@ const client = new Discord.Client();
 /* check if bot is ready, when is ready, set activity and notify that bot has started */
 client.on("ready", () => {
   logger.info("Client is ready...");
-  client.user.setActivity(`Boosting for ${client.users.size} people ;)`);
+  setInterval(() => {
+    client.user.setActivity(`Boosting for ${client.users.size} people ;)`);
+  }, 150000)
 });
 
 const events = {
@@ -32,7 +35,7 @@ const events = {
 };
 
 client.on("error", (error) => {
-  logger.error("Client recieved error.")
+  logger.error(`Client recieved error: ${error.name}, ${error.message}`)
 });
 
 client.on("raw", async event => {
@@ -85,14 +88,11 @@ client.on("message", message => {
     .trim()
     .split(/ +/g);
   const command = args.shift().toLowerCase();
-  // if (command === "setbotchannel") {
-  //   return setBotChannel(message, client, args);
-  // }
   if (command === "addevent") {
-    return addEvent(message, client, args);
+    commands.addEvent(message, client, args);
   }
   if (command === "list") {
-    return list(message, args, client);
+    commands.list(message, args, client);
   }
   if (command === "dropdb") {
     if (message.author.id !== "198635124244480012") return;
@@ -101,27 +101,35 @@ client.on("message", message => {
       logger.info(`DB has been dropped by user ${message.author.username}:${message.author.id}.`)
     });
   }
-  // if (command === "help") {
-  //   return message.channel.send(Helpers.returnHelpEmbed(client));
-  // }
-  // if (command === "clean") {
-  //   return cleanChannel(message, args);
-  // }
-  // if (command === "botinfo") {
-  //   return botInfo(message, client);
-  // }
-  // if (command === "seteventchannel") {
-  //   return setEventChannel(message, client, args);
-  // }
-  // if (command === "setlistchannel") {
-  //   return setListChannel(message, client, args);
-  // }
+  if (command === "help") {
+    message.channel.send(helpEmbed(client));
+  }
+  if (command === "clean") {
+    commands.cleanChannel(message, args);
+  }
+  if (command === "botinfo") {
+    commands.botInfo(message, client);
+  }
+  if (command === "seteventchannel") {
+    commands.setEventChannel(message, client, args);
+  }
+  if (command === "setlistchannel") {
+    commands.setListChannel(message, client, args);
+  }
+  if (command === "setannouncechannel") {
+    commands.setAnnounceChannel(message, client, args);
+  }
+  if (command === "test") {
+    message.channel.send("<:474931845645991938:>");
+  }
 });
 
 /* login handler */
-
-if (process.env.NODE_ENV !== "production") {
-  client.login(process.env.BOT_DEV).then(logger.info("Client started successfully.")).catch(logger.error("Client failed to connect..."))
-} else {
-  client.login(process.env.BOT_LIVE).then(logger.info("Client started successfully.")).catch(logger.error("Client failed to connect..."))
+function clientLogin() {
+  if (process.env.NODE_ENV !== "production") {
+    return client.login(process.env.BOT_DEV)
+  } else {
+    return client.login(process.env.BOT_LIVE)
+  }
 }
+clientLogin();

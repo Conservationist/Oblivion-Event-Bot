@@ -1,6 +1,6 @@
 import Discord from "discord.js";
 
-export default function returnYesEmbed(yeslist, client) {
+export default function returnYesEmbed(yeslist) {
   /* we map through all the users outputting them numerically  */
   if (yeslist.err === true) return this.errorEmbed("List is currently empty.");
   if (!yeslist.id) return this.errorEmbed("Event does not exist");

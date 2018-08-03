@@ -1,5 +1,6 @@
 import Discord from "discord.js";
 import ver from "../../package.json";
+
 export default async function botInfo(message, client) {
   const date = new Date(client.user.createdAt);
   const embed = new Discord.RichEmbed()

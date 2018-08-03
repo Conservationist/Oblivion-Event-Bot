@@ -1,0 +1,12 @@
+Schema:
+    ☐ Event is going to need some additional data, roles specifically which will change how data is pushed fetched
+	    ☐ going to restructure the yes array, no stays the same
+	    ☐ yes will have dps healer tank, which will be from a react from a DM message (maybe just a react on the event message).
+	    ☐ if a person reacts with no and they exist in the yes field we'll just dump them in "no".
+        ☐ will have to create some new ways to fetch data will have an idea down below
+        
+yes {
+    dps: [],
+    tank: [],
+    heal: []
+}

@@ -2,7 +2,7 @@ import { returnEventList, checkIfValidId } from "../helpers"
 import * as Embeds from "../embeds"
 import Settings from "../models/settingsModel";
 
-export default async function ListUsers(message, args, client) {
+export default async function ListUsers(message, args) {
   if (!args || args.length < 2) {
     const embed = await Embeds.errorEmbed(
       "Invalid arguments, please check '>help'."
