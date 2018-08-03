@@ -7,3 +7,4 @@ oldjs/
 logs/
 dist/
 src/logger
+*.TODO
