@@ -1,6 +1,6 @@
 {
   "name": "oblivionbot",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "A bot for the oblivion discord ",
   "main": "index.js",
   "scripts": {
