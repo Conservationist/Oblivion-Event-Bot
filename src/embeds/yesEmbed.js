@@ -8,7 +8,10 @@ export default function returnYesEmbed(yeslist) {
     .setAuthor(`✅ ${yeslist.title} (${yeslist.id})`)
     .setColor("#f4d143")
     .setDescription(
-      yeslist.usersArr.map((m, index) => `${index + 1}. <@${m}> \n`)
+      yeslist.usersArr.map((m, index) => {
+        if (index + 1 > 30) return;
+        return `${index + 1}. <@${m}> \n`
+      })
     )
     .setFooter(
       "Relative of the Billy Herrington bot. | Made by 𝓗𝓮𝔁.",

@@ -43,9 +43,10 @@ export default async function addEvent(m, client, args) {
   const announceChannel = await client.channels.find("id", eventchannel[0].announce_channel);
   const announceEmbed = await Embeds.announceEmbed(title, id);
   await createEvent(title, event_time, id, m);
-  react_channel.send(embed).then(async m =>
-    await addMessageId(m.id, id),
+  react_channel.send(embed).then(async m => {
+    await addMessageId(m.id, id);
     m.react("✅").then(() => m.react("❌"))
-  )
+  }
+  );
   return announceChannel.send(announceEmbed);
 }

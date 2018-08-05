@@ -16,18 +16,22 @@ export default async function userReactHandler(userid, messageid, type) {
     if (
       event[0].Users.no.includes(userid) === false &&
       event[0].Users.yes.includes(userid) === true
-    )
+    ) {
       return removeYesUserFromEvent(userid, messageid);
-    if (event[0].Users.no.includes(userid) === false)
+    }
+    if (event[0].Users.no.includes(userid) === false && event[0].Users.yes.includes(userid) === false) {
       return addNoUserToEvent(userid, messageid);
+    }
   }
   if (type === "yes") {
     if (
       event[0].Users.no.includes(userid) === true &&
       event[0].Users.yes.includes(userid) === false
-    )
+    ) {
       return removeNoUserFromEvent(userid, messageid);
-    if (event[0].Users.yes.includes(userid) === false)
+    }
+    if (event[0].Users.yes.includes(userid) === false && event[0].Users.no.includes(userid) === false) {
       return addYesUserToEvent(userid, messageid);
+    }
   }
 }

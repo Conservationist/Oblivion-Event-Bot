@@ -129,7 +129,7 @@ function clientLogin() {
   if (process.env.NODE_ENV !== "production") {
     return client.login(process.env.BOT_DEV)
   } else {
-    return client.login(process.env.BOT_LIVE)
+    return client.login(process.env.BOT_DEV)
   }
 }
 clientLogin();

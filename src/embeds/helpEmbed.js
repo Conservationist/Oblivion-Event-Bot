@@ -1,7 +1,6 @@
 import Discord from "discord.js";
 
 export default function returnHelpEmbed(client) {
-  console.log("called")
   const embed = new Discord.RichEmbed()
     .setColor("#d0ef84")
     .setAuthor(`🤖 Help Menu`)
