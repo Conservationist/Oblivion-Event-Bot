@@ -9,6 +9,7 @@ export default async function userReactHandler(userid, messageid, type) {
   if (event.length < 1 || !event) return;
   /* ignore the bot ;) */
   if (userid === "454313341624778763") return;
+  /* ignore the turkinator ;) */
   if (userid === "123796658516525056") return;
   /* see if the user is already in the db, so people don't keep reacting. */
   if (type === "no") {

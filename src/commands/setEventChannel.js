@@ -35,7 +35,6 @@ export default async function setEventChannel(message, client, args) {
     );
     return message.channel.send(embed);
   }
-  console.log("called");
   if (guildsettings[0].eventChannel) {
     Settings.updateOne(
       { _id: guildsettings[0]._id },
