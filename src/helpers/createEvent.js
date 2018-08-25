@@ -21,8 +21,8 @@ export default function createEvent(title, time, id, m) {
       return m.channel.send(embed);
     }
     if (!err) {
-      logger.info(`Event ${title}:${id} created successfully.`)
-      const embed = successEmbed("Created event " + "`" + title + ":" + id + "`" + " " + "successfully.")
+      logger.info(`Created event \`${title}\`(\`${id}\`) `)
+      const embed = successEmbed(`Created event **${title}** (\`${id}\`) `)
       return m.channel.send(embed);
     }
   });

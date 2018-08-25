@@ -1,5 +1,5 @@
-import { returnEventList, checkIfValidId } from "../helpers"
-import * as Embeds from "../embeds"
+import { returnEventList, checkIfValidId } from "../helpers";
+import * as Embeds from "../embeds";
 import Settings from "../models/settingsModel";
 
 export default async function ListUsers(message, args) {
@@ -16,7 +16,10 @@ export default async function ListUsers(message, args) {
     );
     return message.channel.send(embed);
   }
-  if (message.channel.id !== listchannel[0].listChannel) {
+  if (
+    message.channel.id !== listchannel[0].listChannel.horde &&
+    message.channel.id !== listchannel[0].listChannel.alliance
+  ) {
     const embed = await Embeds.errorEmbed(
       "Command not allowed in this channel."
     );
