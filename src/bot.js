@@ -1,8 +1,8 @@
 import Discord from "discord.js";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import { userReactHandler } from "./helpers/"
-import logger from "./logger/"
+import { userReactHandler } from "./helpers/";
+import logger from "./logger/";
 import * as commands from "./commands";
 import { helpEmbed } from "./embeds";
 dotenv.config();
@@ -13,20 +13,26 @@ const mongo_options = {
   reconnectInterval: 500,
   autoReconnect: true
 };
-logger.info('Attempting to connect to db...');
-mongoose.connect(
-  "mongodb://127.0.0.1:27017/Oblivion",
-  mongo_options
-).then(m => logger.info("Connected to db successfully.")).catch(e => logger.error('failed to connect to db, attempting to reconnect...'));
+logger.info("Attempting to connect to db...");
+mongoose
+  .connect(
+    process.env.DB_SHIT,
+    mongo_options
+  )
+  .then(m => logger.info("Connected to db successfully."))
+  .catch(e =>
+    logger.error("failed to connect to db, attempting to reconnect...")
+  );
 
 /* create a new discord client */
 const client = new Discord.Client();
 /* check if bot is ready, when is ready, set activity and notify that bot has started */
 client.on("ready", () => {
   logger.info("Client is ready...");
+  client.user.setActivity(`Boosting for ${client.users.size} people ;)`);
   setInterval(() => {
     client.user.setActivity(`Boosting for ${client.users.size} people ;)`);
-  }, 150000)
+  }, 9000);
 });
 
 const events = {
@@ -34,8 +40,8 @@ const events = {
   MESSAGE_REACTION_REMOVE: "messageReactionRemove"
 };
 
-client.on("error", (error) => {
-  logger.error(`Client recieved error: ${error.name}, ${error.message}`)
+client.on("error", error => {
+  logger.error(`Client recieved error: ${error.name}, ${error.message}`);
 });
 
 client.on("raw", async event => {
@@ -96,9 +102,13 @@ client.on("message", message => {
   }
   if (command === "dropdb") {
     if (message.author.id !== "198635124244480012") return;
-    return mongoose.connection.collections["Events"].drop(function (err) {
+    return mongoose.connection.collections["Events"].drop(function(err) {
       message.reply("DB Dropped");
-      logger.info(`DB has been dropped by user ${message.author.username}:${message.author.id}.`)
+      logger.info(
+        `DB has been dropped by user ${message.author.username}:${
+          message.author.id
+        }.`
+      );
     });
   }
   if (command === "help") {
@@ -127,9 +137,9 @@ client.on("message", message => {
 /* login handler */
 function clientLogin() {
   if (process.env.NODE_ENV !== "production") {
-    return client.login(process.env.BOT_DEV)
+    return client.login(process.env.BOT_DEV);
   } else {
-    return client.login(process.env.BOT_DEV)
+    return client.login(process.env.BOT_LIVE);
   }
 }
 clientLogin();

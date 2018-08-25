@@ -1,12 +1,12 @@
 {
   "name": "oblivionbot",
-  "version": "0.2.0",
+  "version": "0.2.5",
   "description": "A bot for the oblivion discord ",
   "main": "index.js",
   "scripts": {
     "start": "nodemon --exec babel-node src/bot.js",
-    "build-bot": "NODE_ENV=production npx webpack --config webpack.config.js",
-    "build": "npm run build-bot && cp package.json dist/ && cp .env build/"
+    "build-bot": "npx webpack --config webpack.config.js",
+    "build": "npm run build-bot && cp package.json dist/ && cp .env dist/"
   },
   "keywords": [
     "#bot",
